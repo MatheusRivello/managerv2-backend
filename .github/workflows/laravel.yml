@@ -16,5 +16,12 @@ jobs:
       with:
         php-version: '7.4'
     - uses: actions/checkout@v3
+
+    - name: Build Database
+      run: docker compose build
+
+    - name: Init Database
+      run: docker compose up -d
+
     - name: Install Dependencies
       run: composer install

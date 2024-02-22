@@ -1,11 +1,5 @@
 version: '3'
 
-networks:
-  nt-backend:
-    ipam:
-      config:
-        - subnet: 172.18.0.0/16
-
 services:
 
   mariadb:
@@ -27,19 +21,3 @@ services:
       timeout: 30s
       retries: 3
       start_period: 50s
-    networks:
-      nt-backend:
-        ipv4_address: 172.18.0.11
-
-  backend:
-    image: sig2000/backend
-    container_name: managerv2-backend-apache
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    ports:
-      - "80:80"
-    command: sh -c 'composer install' # && php artisan test
-    networks:
-      nt-backend:
-        ipv4_address: 172.18.0.12

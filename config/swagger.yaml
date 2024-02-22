@@ -1,0 +1,5 @@
+openapi: 3.0.0
+info:
+  title: API AFV
+  version: 1.0.0
+  description: API interna para integração com o Front-end e API externa para integração com outros sistemas.

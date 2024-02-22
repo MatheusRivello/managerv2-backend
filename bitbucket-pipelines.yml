@@ -1,0 +1,22 @@
+# Pipeline para o frontend do novo AFV
+# Autor: Matheus 
+# E-mail: matheus@sig2000.com.br
+# Organização: SIG 2000 Informática LTDA
+
+
+image: atlassian/default-image:3
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - echo "Teste na master"
+    develop:
+      - step:
+          script:
+            - export LC_ALL=en_US.UTF-8
+            - export LANG=en_US.UTF-8          
+            - echo "Iniciando deploy da develop para o backend"
+            - cat ./deploy.sh | ssh afvsig2000@186.250.95.217 -p 10227
+            - echo "Pull na develop efetuado"

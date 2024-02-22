@@ -46,7 +46,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'managerv2-mariadb'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'central_afv'),
             'username' => env('DB_USERNAME', 'root'),
@@ -66,7 +66,7 @@ return [
         'system' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('SYSTEM_HOST', 'managerv2-mariadb'),
+            'host' => env('SYSTEM_HOST', 'localhost'),
             'port' => env('SYSTEM_PORT', '3306'),
             'database' => env('SYSTEM_DATABASE', 'central_afv'),
             'username' => env('SYSTEM_USERNAME', 'root'),

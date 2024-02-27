@@ -4,7 +4,6 @@ services:
 
   mariadb:
     image: mariadb:latest
-    container_name: managerv2-mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=central_afv

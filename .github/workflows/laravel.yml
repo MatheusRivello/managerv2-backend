@@ -19,7 +19,7 @@ jobs:
       run: docker compose up -d
     
     - name: Verificando se o container esta em execução
-      run: docker container exec managerv2-backend-mariadb-1 mariadb -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
+      run: docker container exec managerv2-backend-mariadb-1 mariadb -h 127.0.0.1 -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
       
   # Teste-Unitario:
   #   runs-on: ubuntu-latest

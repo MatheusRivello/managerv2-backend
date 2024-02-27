@@ -24,21 +24,21 @@ jobs:
     - name: Verificando se o container esta em execução
       run: docker container exec managerv2-backend-mariadb-1 mariadb -h 127.0.0.1 -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
       
-  # Teste-Unitario:
-  #   runs-on: ubuntu-latest
-  #   needs: [CI]
-  #   steps:
-  #   - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-  #     with:
-  #       php-version: '7.4'
+  Teste-Unitario:
+    runs-on: ubuntu-latest
+    needs: [CI]
+    steps:
+    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+      with:
+        php-version: '7.4'
     
-  #   - uses: actions/checkout@v3.1.0
+    - uses: actions/checkout@v3.1.0
     
-  #   - name: Install Dependencies
-  #     run: composer install
+    - name: Install Dependencies
+      run: composer install
     
-  #   - name: Testes unitários
-  #     run: php artisan teste
+    - name: Testes unitários
+      run: php artisan teste
   
   # DockerHub-Image:
   #   runs-on: ubuntu-latest

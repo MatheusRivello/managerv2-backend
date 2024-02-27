@@ -46,7 +46,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'central_afv'),
             'username' => env('DB_USERNAME', 'root'),
@@ -66,7 +66,7 @@ return [
         'system' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('SYSTEM_HOST', 'localhost'),
+            'host' => env('SYSTEM_HOST', '127.0.0.1'),
             'port' => env('SYSTEM_PORT', '3306'),
             'database' => env('SYSTEM_DATABASE', 'central_afv'),
             'username' => env('SYSTEM_USERNAME', 'root'),
@@ -87,7 +87,7 @@ return [
         'tenant' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('TENANT_HOST', 'managerv2-mariadb'),
+            'host' => env('TENANT_HOST', '127.0.0.1'),
             'port' => env('TENANT_PORT', '3307'),
             'database' => env('TENANT_DATABASE', 'painel_'),
             'username' => env('TENANT_USERNAME', 'root'),

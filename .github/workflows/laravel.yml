@@ -17,6 +17,9 @@ jobs:
 
     - name: Iniciando container do banco de dados
       run: docker compose up -d
+    
+    - name: Teste de dados restaurados
+      run: docker container exec managerv2-mariadb mariadb -h localhost -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app'
   
   Teste-Unitario:
     runs-on: ubuntu-latest

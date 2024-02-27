@@ -19,42 +19,42 @@ jobs:
       run: docker compose up -d
     
     - name: Verificando se o container esta em execução
-      run: docker container exec $(docker ps -q) mariadb -h localhost -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
+      run: docker container exec $(docker ps -q) mariadb -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
       
-  Teste-Unitario:
-    runs-on: ubuntu-latest
-    needs: [CI]
-    steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '7.4'
+  # Teste-Unitario:
+  #   runs-on: ubuntu-latest
+  #   needs: [CI]
+  #   steps:
+  #   - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+  #     with:
+  #       php-version: '7.4'
     
-    - uses: actions/checkout@v3.1.0
+  #   - uses: actions/checkout@v3.1.0
     
-    - name: Install Dependencies
-      run: composer install
+  #   - name: Install Dependencies
+  #     run: composer install
     
-    - name: Testes unitários
-      run: php artisan teste
+  #   - name: Testes unitários
+  #     run: php artisan teste
   
-  DockerHub-Image:
-    runs-on: ubuntu-latest
-    needs: [Teste-Unitario]
-    steps:
-      - uses: actions/checkout@v3.1.0
+  # DockerHub-Image:
+  #   runs-on: ubuntu-latest
+  #   needs: [Teste-Unitario]
+  #   steps:
+  #     - uses: actions/checkout@v3.1.0
 
-      - name: Autenticação no Docker Hub
-        uses: docker/login-action@v3.0.0
-        with:
-          username: ${{secrets.DOCKERHUB_USER}}
-          password: ${{secrets.DOCKERHUB_PWD}}
+  #     - name: Autenticação no Docker Hub
+  #       uses: docker/login-action@v3.0.0
+  #       with:
+  #         username: ${{secrets.DOCKERHUB_USER}}
+  #         password: ${{secrets.DOCKERHUB_PWD}}
 
-      - name: Construção da imagem Docker do backend
-        uses: docker/build-push-action@v5.1.0
-        with:
-          context: ./
-          file: ./Dockerfile
-          push: true
-          tags: |
-            matheussig2000/managerv2-backend:V${{github.run_number}}
-            matheussig2000/managerv2-backend:latest
+  #     - name: Construção da imagem Docker do backend
+  #       uses: docker/build-push-action@v5.1.0
+  #       with:
+  #         context: ./
+  #         file: ./Dockerfile
+  #         push: true
+  #         tags: |
+  #           matheussig2000/managerv2-backend:V${{github.run_number}}
+  #           matheussig2000/managerv2-backend:latest

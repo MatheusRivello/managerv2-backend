@@ -33,6 +33,15 @@ jobs:
     - name: Testes unitários
       run: php artisan test
 
+    - name: Enviando notificação em caso de falha
+      if: failure()
+      uses: slack/send-message@v3
+      with:
+        channel: '#status-manager-v2'
+        text: 'O job *${{ github.job }}* falhou para o workflow *${{ github.workflow }}* disparado por *${{ github.actor }}* no repositório *${{ github.repository }}*.'
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   # Teste-Unitario:
   #   runs-on: ubuntu-latest
   #   needs: [CI]

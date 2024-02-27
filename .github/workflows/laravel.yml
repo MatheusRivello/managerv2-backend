@@ -31,7 +31,7 @@ jobs:
       run: composer install
     
     - name: Testes unitários
-      run: php artisan teste
+      run: php artisan test
       
   # Teste-Unitario:
   #   runs-on: ubuntu-latest

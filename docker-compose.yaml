@@ -15,7 +15,6 @@ services:
     volumes:
       - ./database/dump:/docker-entrypoint-initdb.d
     healthcheck:
-      #test: ["CMD", "mariadb-admin", "-u root", "-p123456", "ping", "-h", "localhost"] --> Teste simples, apenas do mysql
       test: ["CMD-SHELL", "mariadb -h localhost -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';"]
       interval: 10s
       timeout: 30s

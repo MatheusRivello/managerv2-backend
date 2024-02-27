@@ -7,68 +7,43 @@ on:
     branches: [ "main" ]
 
 jobs:
-  CI:
+  Database:
     runs-on: ubuntu-latest
+    
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: 123456
+          MYSQL_DATABASE: central_afv
+          MYSQL_USER: painel_temporario
+          MYSQL_PASSWORD: 123456
+        ports:
+          - "3306:3306"
+        volumes:
+          - ./database/dump:/docker-entrypoint-initdb.d
+        options: --health-cmd="mariadb -h localhost -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';" --health-interval=10s --health-timeout=30s --health-retries=3 --health-start-period=50s
+
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3.1.0
+    
+    - name: Verificando se o container esta em execução
+      run: docker container exec mariadb mariadb -h localhost -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app;'
+
+  Teste-Unitario:
+    runs-on: ubuntu-latest
+    needs: [Database]
+    steps:
+
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
         php-version: '7.4'    
+
     - uses: actions/checkout@v3.1.0
-
-    - name: Build do banco de dados
-      run: docker compose build
-
-    - name: Iniciando container do banco de dados
-      run: docker compose up -d
-
-    - name: Aguardando o banco iniciar
-      run: sleep 20
-    
-    - name: Verificando se o container esta em execução
-      run: docker container exec managerv2-backend-mariadb-1 mariadb -h 127.0.0.1 -u root -p'123456' -e 'USE central_afv; SELECT COUNT(*) FROM versao_app';
-
-    # - name: Install Dependencies
-    #   run: composer install
-    
-    # - name: Testes unitários
-    #   run: php artisan test
-      
-  Teste-Unitario:
-    runs-on: ubuntu-latest
-    needs: [CI]
-    steps:
-    - uses: actions/checkout@v3.1.0
-    
-    - name: Teste de banco
-      run: docker container ls
-      
-    - name: Clear Composer cache
-      run: composer clear-cache
-    
+        
     - name: Install Dependencies
       run: composer install
     
     - name: Testes unitários
       run: php artisan test
-  
-  # DockerHub-Image:
-  #   runs-on: ubuntu-latest
-  #   needs: [Teste-Unitario]
-  #   steps:
-  #     - uses: actions/checkout@v3.1.0
-
-  #     - name: Autenticação no Docker Hub
-  #       uses: docker/login-action@v3.0.0
-  #       with:
-  #         username: ${{secrets.DOCKERHUB_USER}}
-  #         password: ${{secrets.DOCKERHUB_PWD}}
-
-  #     - name: Construção da imagem Docker do backend
-  #       uses: docker/build-push-action@v5.1.0
-  #       with:
-  #         context: ./
-  #         file: ./Dockerfile
-  #         push: true
-  #         tags: |
-  #           matheussig2000/managerv2-backend:V${{github.run_number}}
-  #           matheussig2000/managerv2-backend:latest

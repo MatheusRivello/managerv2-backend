@@ -15,7 +15,7 @@ ENV REDIS_PORT=6379
 
 WORKDIR /var/www/html
 
-COPY ./src .
+COPY . .
 
 RUN chown -R www-data.www-data /var/www/html
 
